@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -16,7 +17,6 @@
       background: #ffd54f;
       padding: 20px;
       font-size: 28px;
-      font-weight: bold;
       color: #5d4037;
     }
     .balance {
@@ -51,29 +51,60 @@
   </style>
 </head>
 <body>
-  <header>🥚 PolloCrypto - La tua Fattoria di Galline Cripto 🐔</header>
+  <header>🥚 PolloCrypto - Fattoria Galline Cripto 🐔</header>
 
   <div class="balance">
-    Saldo: <strong id="saldo">0.00 USDT</strong><br />
-    Uova prodotte oggi: <span id="uova">0</span>
+    Saldo: <strong id="saldo">0.00 USDT</strong><br>
+    Uova: <span id="uova">0</span><br>
+    Galline: <span id="galline">1</span>
   </div>
 
   <div class="chicken">
-    <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Gallina" />
-    <div class="eggs">Gallina #1</div>
-    <button onclick="raccogliUova()">Raccogli Uova</button>
+    <img src="https://cdn-icons-png.flaticon.com/512/1886890/1886890.png" alt="Gallina" />
+    <div class="eggs">Gallina felice 🐔</div>
+    <button onclick="acquistaGallina()">Compra Gallina (10 USDT)</button>
   </div>
 
   <script>
-    let saldo = 0.00;
-    let uova = 0;
+    let saldo = parseFloat(localStorage.getItem('saldo')) || 0;
+    let uova = parseInt(localStorage.getItem('uova')) || 0;
+    let galline = parseInt(localStorage.getItem('galline')) || 1;
 
-    function raccogliUova() {
-      uova += 1;
-      saldo += 0.56;
-      document.getElementById("uova").innerText = uova;
-      document.getElementById("saldo").innerText = saldo.toFixed(2) + " USDT";
-    }
+    const updateUI = () => {
+      document.getElementById('saldo').innerText = saldo.toFixed(2) + ' USDT';
+      document.getElementById('uova').innerText = uova;
+      document.getElementById('galline').innerText = galline;
+    };
+
+    const salvaDati = () => {
+      localStorage.setItem('saldo', saldo);
+      localStorage.setItem('uova', uova);
+      localStorage.setItem('galline', galline);
+    };
+
+    const generaUova = () => {
+      uova += galline;
+      saldo += 0.56 * galline;
+      updateUI();
+      salvaDati();
+    };
+
+    const acquistaGallina = () => {
+      if (saldo >= 10) {
+        saldo -= 10;
+        galline += 1;
+        updateUI();
+        salvaDati();
+      } else {
+        alert('Saldo insufficiente!');
+      }
+    };
+
+    // Inizia il ciclo uova automatico ogni 10 secondi
+    setInterval(generaUova, 10000);
+
+    // Mostra dati al caricamento
+    updateUI();
   </script>
 </body>
 </html>

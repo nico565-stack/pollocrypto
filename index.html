@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PolloCrypto</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fef9f1;
+      color: #333;
+      text-align: center;
+    }
+    header {
+      background: #ffd54f;
+      padding: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #5d4037;
+    }
+    .balance {
+      margin: 20px;
+      font-size: 22px;
+    }
+    .chicken {
+      display: inline-block;
+      background: #fff3e0;
+      border: 2px dashed #ff9800;
+      padding: 20px;
+      margin: 10px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    .chicken img {
+      width: 100px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #ffca28;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .eggs {
+      font-size: 18px;
+      color: #6d4c41;
+    }
+  </style>
+</head>
+<body>
+  <header>🥚 PolloCrypto - La tua Fattoria di Galline Cripto 🐔</header>
+
+  <div class="balance">
+    Saldo: <strong id="saldo">0.00 USDT</strong><br />
+    Uova prodotte oggi: <span id="uova">0</span>
+  </div>
+
+  <div class="chicken">
+    <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Gallina" />
+    <div class="eggs">Gallina #1</div>
+    <button onclick="raccogliUova()">Raccogli Uova</button>
+  </div>
+
+  <script>
+    let saldo = 0.00;
+    let uova = 0;
+
+    function raccogliUova() {
+      uova += 1;
+      saldo += 0.56;
+      document.getElementById("uova").innerText = uova;
+      document.getElementById("saldo").innerText = saldo.toFixed(2) + " USDT";
+    }
+  </script>
+</body>
+</html>

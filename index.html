@@ -1,110 +1,184 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PolloCrypto</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #fef9f1;
-      color: #333;
-      text-align: center;
-    }
-    header {
-      background: #ffd54f;
-      padding: 20px;
-      font-size: 28px;
-      color: #5d4037;
-    }
-    .balance {
-      margin: 20px;
-      font-size: 22px;
-    }
-    .chicken {
-      display: inline-block;
-      background: #fff3e0;
-      border: 2px dashed #ff9800;
-      padding: 20px;
-      margin: 10px;
-      border-radius: 12px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    }
-    .chicken img {
-      width: 100px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #ffca28;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .eggs {
-      font-size: 18px;
-      color: #6d4c41;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PolloCrypto - Wallet & Marketplace</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff8e1;
+    color: #5d4037;
+    margin: 0; padding: 0; text-align: center;
+  }
+  header {
+    background: #ffca28;
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #4e342e;
+  }
+  #wallet {
+    margin: 20px auto;
+    padding: 15px;
+    border: 2px dashed #ffb300;
+    width: 320px;
+    border-radius: 12px;
+    background: #fff3e0;
+  }
+  #wallet p {
+    margin: 8px 0;
+    font-size: 18px;
+  }
+  button {
+    background: #ffb300;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  #marketplace {
+    margin: 30px auto;
+    max-width: 900px;
+  }
+  .nft-card {
+    display: inline-block;
+    width: 150px;
+    background: #fff3e0;
+    border: 2px solid #ffb300;
+    border-radius: 12px;
+    margin: 10px;
+    padding: 10px;
+    color: #6d4c41;
+  }
+  .nft-card img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  .nft-card button {
+    margin-top: 8px;
+    background: #ffca28;
+    width: 100%;
+  }
+  #status {
+    margin: 15px;
+    font-style: italic;
+    color: #a1887f;
+  }
+</style>
 </head>
 <body>
-  <header>🥚 PolloCrypto - Fattoria Galline Cripto 🐔</header>
 
-  <div class="balance">
-    Saldo: <strong id="saldo">0.00 USDT</strong><br>
-    Uova: <span id="uova">0</span><br>
-    Galline: <span id="galline">1</span>
+<header>🐔 PolloCrypto - Wallet & Marketplace NFT 🥚</header>
+
+<section id="wallet">
+  <p><strong>Wallet simulato:</strong></p>
+  <p>ETH: <span id="ethSim">5.0000</span></p>
+  <p>USDT: <span id="usdtSim">100.00</span></p>
+
+  <p><strong>Metamask (testnet):</strong></p>
+  <p>Indirizzo: <span id="metaAddress">Non connesso</span></p>
+  <p>Saldo ETH: <span id="metaBalance">-</span></p>
+  <button id="connectMM">Connetti Metamask</button>
+</section>
+
+<section id="marketplace">
+  <h2>Marketplace Galline NFT</h2>
+  <div class="nft-card" data-price="15" data-name="Gallina Dorata">
+    <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Gallina Dorata" />
+    <p>Gallina Dorata</p>
+    <p>Prezzo: 15 USDT</p>
+    <button class="buyNFT">Acquista</button>
   </div>
-
-  <div class="chicken">
-    <img src="https://cdn-icons-png.flaticon.com/512/1886890/1886890.png" alt="Gallina" />
-    <div class="eggs">Gallina felice 🐔</div>
-    <button onclick="acquistaGallina()">Compra Gallina (10 USDT)</button>
+  <div class="nft-card" data-price="25" data-name="Gallina Reale">
+    <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Gallina Reale" />
+    <p>Gallina Reale</p>
+    <p>Prezzo: 25 USDT</p>
+    <button class="buyNFT">Acquista</button>
   </div>
+  <div class="nft-card" data-price="50" data-name="Gallina Leggendaria">
+    <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" alt="Gallina Leggendaria" />
+    <p>Gallina Leggendaria</p>
+    <p>Prezzo: 50 USDT</p>
+    <button class="buyNFT">Acquista</button>
+  </div>
+</section>
 
-  <script>
-    let saldo = parseFloat(localStorage.getItem('saldo')) || 0;
-    let uova = parseInt(localStorage.getItem('uova')) || 0;
-    let galline = parseInt(localStorage.getItem('galline')) || 1;
+<section id="status"></section>
 
-    const updateUI = () => {
-      document.getElementById('saldo').innerText = saldo.toFixed(2) + ' USDT';
-      document.getElementById('uova').innerText = uova;
-      document.getElementById('galline').innerText = galline;
-    };
+<script>
+  // Wallet simulato
+  let walletSim = {
+    eth: 5.0,
+    usdt: 100.0,
+    ownedNFTs: []
+  };
 
-    const salvaDati = () => {
-      localStorage.setItem('saldo', saldo);
-      localStorage.setItem('uova', uova);
-      localStorage.setItem('galline', galline);
-    };
+  // Funzione per aggiornare i valori in pagina
+  function aggiornaWalletSim() {
+    document.getElementById('ethSim').innerText = walletSim.eth.toFixed(4);
+    document.getElementById('usdtSim').innerText = walletSim.usdt.toFixed(2);
+  }
 
-    const generaUova = () => {
-      uova += galline;
-      saldo += 0.56 * galline;
-      updateUI();
-      salvaDati();
-    };
+  // Aggiorna all'avvio
+  aggiornaWalletSim();
 
-    const acquistaGallina = () => {
-      if (saldo >= 10) {
-        saldo -= 10;
-        galline += 1;
-        updateUI();
-        salvaDati();
+  // Metamask connection
+  const connectBtn = document.getElementById('connectMM');
+  const metaAddressSpan = document.getElementById('metaAddress');
+  const metaBalanceSpan = document.getElementById('metaBalance');
+  const status = document.getElementById('status');
+
+  async function connectMetamask() {
+    if (typeof window.ethereum === 'undefined') {
+      alert('Metamask non è installato! Installa l\'estensione e riprova.');
+      return;
+    }
+    try {
+      // Richiedi accesso all'account
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      metaAddressSpan.innerText = account;
+
+      // Ottieni saldo ETH
+      const balanceWei = await ethereum.request({
+        method: 'eth_getBalance',
+        params: [account, 'latest']
+      });
+      // Converti wei in ether
+      const balanceEth = parseInt(balanceWei, 16) / 1e18;
+      metaBalanceSpan.innerText = balanceEth.toFixed(4);
+
+      status.innerText = 'Connesso a Metamask su testnet';
+    } catch (error) {
+      console.error(error);
+      status.innerText = 'Errore durante la connessione a Metamask';
+    }
+  }
+
+  connectBtn.addEventListener('click', connectMetamask);
+
+  // Marketplace acquisto NFT
+  const buyButtons = document.querySelectorAll('.buyNFT');
+  buyButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.nft-card');
+      const price = parseFloat(card.getAttribute('data-price'));
+      const name = card.getAttribute('data-name');
+
+      if (walletSim.usdt >= price) {
+        walletSim.usdt -= price;
+        walletSim.ownedNFTs.push(name);
+        aggiornaWalletSim();
+        status.innerText = `Hai acquistato la ${name}!`;
       } else {
-        alert('Saldo insufficiente!');
+        alert('USDT insufficienti per acquistare questa gallina NFT.');
       }
-    };
+    });
+  });
+</script>
 
-    // Inizia il ciclo uova automatico ogni 10 secondi
-    setInterval(generaUova, 10000);
-
-    // Mostra dati al caricamento
-    updateUI();
-  </script>
 </body>
 </html>
